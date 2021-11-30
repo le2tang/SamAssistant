@@ -1,14 +1,16 @@
 package com.example.samassistant
 
-class ScheduleList : ScheduleBase {
-    var list = mutableListOf<ScheduleBase>();
-    var map = mutableMapOf<String, ScheduleBase>();
+var scheduleEntries = mutableListOf<ScheduleEntry>();
 
-    constructor(list_name: String) : super(list_name) {
+class ScheduleList : ScheduleEntry {
+    var list = mutableListOf<ScheduleEntry>();
+    var map = mutableMapOf<String, ScheduleEntry>();
+
+    constructor(listName: String) : super(listName) {
 
     }
 
-    fun add(entry: ScheduleBase) {
+    fun add(entry: ScheduleEntry) {
         list.add(entry);
         map[entry.name] = list.last();
     }

@@ -2,7 +2,7 @@ package com.example.samassistant
 
 import android.icu.util.DateInterval
 
-open class ScheduleBlock : ScheduleBase {
+open class ScheduleBlock : ScheduleEntry {
     var interval: DateInterval = DateInterval(0, 0);
     var priority: Int = 0;
 
