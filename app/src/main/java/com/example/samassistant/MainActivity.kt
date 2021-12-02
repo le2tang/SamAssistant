@@ -1,5 +1,6 @@
 package com.example.samassistant
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,16 +22,17 @@ class MainActivity : AppCompatActivity() {
         scheduleEntries.add(ScheduleEntry("entry2"));
         scheduleEntries.add(ScheduleEntry("entry3"));
         scheduleEntries.add(ScheduleEntry("entry4"));
-        scheduleEntries.add(ScheduleEntry("entry5"));
-        scheduleEntries.add(ScheduleEntry("entry6"));
-        scheduleEntries.add(ScheduleEntry("entry7"));
 
         binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries);
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this, LinearLayoutManager.VERTICAL, false);
 
         binding.floatingActionButton.setOnClickListener {
-            scheduleEntries.add(ScheduleEntry("entry" + scheduleEntries.size.toString()))
+            val intent = Intent(this, CreateNewEntry::class.java);
+
+            scheduleEntries.add(ScheduleEntry("entry" + scheduleEntries.size.toString()));
+
+            startActivity(intent);
         };
     }
 }
