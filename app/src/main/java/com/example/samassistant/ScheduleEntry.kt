@@ -2,41 +2,41 @@ package com.example.samassistant
 
 import java.util.*
 
-data class ScheduleEntry(
-        var name: String, var type: Int = 0,
-        var startDatetime: Date? = null, var endDatetime: Date? = null) {
-    var start: Calendar;
-    var end: Calendar;
+sealed class ScheduleEntry(var id: String, var name: String) {
+    class Meeting(
+        id: String,
+        name: String,
+        var location: String,
+        var start: Date = Date(),
+        var end: Date = Date()
+    ) : ScheduleEntry(id, name);
 
-    init {
-        start = Calendar.getInstance();
-        if (startDatetime != null) {
-            start.setTime(startDatetime);
-        }
-        else {
-            start.setTime(Date());
-        }
-        end = Calendar.getInstance();
-        if (endDatetime != null) {
-            end.setTime(endDatetime);
-        }
-        else {
-            end.setTime(Date());
-        }
-    }
+    class School(
+        id: String,
+        name: String,
+        var course: String,
+        var location: String,
+        var start: Date = Date(),
+        var end: Date = Date()
+    ) : ScheduleEntry(id, name);
 
-    fun FormatStartDatetime(): String {
-        val currDatetime = Date();
-        var startString = "Starts in ";
-        if (currDatetime.before(start.getTime())) {
-            val diff = start.getTime().time - currDatetime.time;
-        }
-        else if (currDatetime.after(start.getTime())) {
-            val diff = currDatetime.time - start.getTime().time;
-        }
-        else {
+    class Work(
+        id: String,
+        name: String,
+        var start: Date = Date(),
+        var end: Date = Date()
+    ) : ScheduleEntry(id, name);
 
-        }
-        return startString;
-    }
+    class Task(
+        id: String,
+        name: String,
+        var due: Date = Date()
+    ) : ScheduleEntry(id, name)
+
+    class Due(
+        id: String,
+        name: String,
+        var course: String,
+        var due: Date = Date()
+    ) : ScheduleEntry(id, name);
 }

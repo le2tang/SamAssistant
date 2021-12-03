@@ -3,6 +3,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="block">Block</string>
-    <string name="event">Event</string>
+    <string name="meeting">Meeting</string>
+    <string name="school">School</string>
+    <string name="work">Work</string>
+    <string name="task">Task</string>
+    <string name="due">Due Date</string>
 </resources>

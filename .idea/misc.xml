@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/activity_create_new_entry.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_due.xml" value="0.1" />
         <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_entry.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_meeting.xml" value="0.1" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_school.xml" value="0.1" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_task.xml" value="0.1" />
+        <entry key="..\:/Users/Lyndon/AndroidStudioProjects/SamAssistant/app/src/main/res/layout/schedule_work.xml" value="0.1" />
       </map>
     </option>
   </component>

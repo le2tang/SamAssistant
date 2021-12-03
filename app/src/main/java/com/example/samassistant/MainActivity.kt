@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater);
         setContentView(binding.root);
 
-        scheduleEntries.add(ScheduleEntry("entry0"));
-        scheduleEntries.add(ScheduleEntry("entry1"));
-        scheduleEntries.add(ScheduleEntry("entry2"));
-        scheduleEntries.add(ScheduleEntry("entry3"));
-        scheduleEntries.add(ScheduleEntry("entry4"));
+        scheduleEntries.add(ScheduleEntry.Meeting("meeting0", "Meeting", "Location"));
+        scheduleEntries.add(ScheduleEntry.School("school0", "School", "Course", "Location"));
+        scheduleEntries.add(ScheduleEntry.Work("work0", "Work"));
+        scheduleEntries.add(ScheduleEntry.Task("task0", "Task"));
+        scheduleEntries.add(ScheduleEntry.Due("due0", "Due", "Course"));
 
         binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries);
         binding.recyclerView.layoutManager = LinearLayoutManager(
@@ -30,7 +30,11 @@ class MainActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             val intent = Intent(this, CreateNewEntry::class.java);
 
-            scheduleEntries.add(ScheduleEntry("entry" + scheduleEntries.size.toString()));
+            scheduleEntries.add(ScheduleEntry.Meeting(
+                "meeting" + scheduleEntries.size.toString(),
+                "Meeting",
+                "Location"
+            ));
 
             startActivity(intent);
         };

@@ -7,40 +7,142 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.example.samassistant.databinding.*
+import java.lang.IllegalArgumentException
 
-class ScheduleAdapter(private var entries: List<ScheduleEntry>) :
-    RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>) : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
 
-    class ViewHolder(view: View) :
-        RecyclerView.ViewHolder(view) {
-        val entry: LinearLayout;
-        val entryName: TextView;
-        val entryType: TextView;
-        init {
-            entry = view.findViewById(R.id.entry);
-            entryName = view.findViewById(R.id.entryName);
-            entryType = view.findViewById(R.id.entryType);
+    var entries = scheduleEntries
+        set(value) {
+            field = value;
+            notifyDataSetChanged();
+        };
+
+    sealed class ScheduleEntryViewHolder(binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        class MeetingViewHolder(private val binding: ScheduleMeetingBinding) : ScheduleEntryViewHolder(binding) {
+            fun bind(meeting: ScheduleEntry.Meeting) {
+                binding.name.text = meeting.name;
+                binding.location.text = meeting.location;
+                binding.meeting.setOnClickListener {
+                    Toast.makeText(binding.meeting.context, "Meeting", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        class SchoolViewHolder(private val binding: ScheduleSchoolBinding) : ScheduleEntryViewHolder(binding) {
+            fun bind(school: ScheduleEntry.School) {
+                binding.name.text = school.name;
+                binding.course.text = school.course;
+                binding.location.text = school.location;
+            }
+        }
+
+        class WorkViewHolder(private val binding: ScheduleWorkBinding) : ScheduleEntryViewHolder(binding) {
+            fun bind(work: ScheduleEntry.Work) {
+                binding.name.text = work.name;
+            }
+        }
+
+        class TaskViewHolder(private val binding: ScheduleTaskBinding) : ScheduleEntryViewHolder(binding) {
+            fun bind(task: ScheduleEntry.Task) {
+                binding.name.text = task.name;
+            }
+        }
+
+        class DueViewHolder(private val binding: ScheduleDueBinding) : ScheduleEntryViewHolder(binding) {
+            fun bind(due: ScheduleEntry.Due) {
+                binding.name.text = due.name;
+            }
         }
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.schedule_entry, viewGroup, false);
-        return ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleEntryViewHolder {
+        if (viewType == R.layout.schedule_meeting) {
+            return ScheduleEntryViewHolder.MeetingViewHolder(
+                ScheduleMeetingBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            );
+        }
+        else if (viewType == R.layout.schedule_school) {
+            return ScheduleEntryViewHolder.SchoolViewHolder(
+                ScheduleSchoolBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            );
+        }
+        else if (viewType == R.layout.schedule_work) {
+            return ScheduleEntryViewHolder.WorkViewHolder(
+                ScheduleWorkBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            );
+        }
+        else if (viewType == R.layout.schedule_task) {
+            return ScheduleEntryViewHolder.TaskViewHolder(
+                ScheduleTaskBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            );
+        }
+        else if (viewType == R.layout.schedule_due) {
+            return ScheduleEntryViewHolder.DueViewHolder(
+                ScheduleDueBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            );
+        }
+        else {
+            throw IllegalArgumentException("Invalid view type");
+        }
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.entry.setOnClickListener {
-            Toast.makeText(viewHolder.entry.context,
-                "Clicked position $position", Toast.LENGTH_SHORT).show()
-            entries[position].type += 1;
-            viewHolder.entryType.text = entries[position].type.toString();
-        };
-        viewHolder.entryName.text = entries[position].name
-        viewHolder.entryType.text = entries[position].type.toString();
+    override fun onBindViewHolder(viewHolder: ScheduleEntryViewHolder, position: Int) {
+        if (viewHolder is ScheduleEntryViewHolder.MeetingViewHolder) {
+            return viewHolder.bind(entries[position] as ScheduleEntry.Meeting);
+        }
+        else if (viewHolder is ScheduleEntryViewHolder.SchoolViewHolder) {
+            return viewHolder.bind(entries[position] as ScheduleEntry.School)
+        }
+        else if (viewHolder is ScheduleEntryViewHolder.WorkViewHolder) {
+            return viewHolder.bind(entries[position] as ScheduleEntry.Work);
+        }
+        else if (viewHolder is ScheduleEntryViewHolder.TaskViewHolder) {
+            return viewHolder.bind(entries[position] as ScheduleEntry.Task)
+        }
+        else if (viewHolder is ScheduleEntryViewHolder.DueViewHolder) {
+            return viewHolder.bind(entries[position] as ScheduleEntry.Due)
+        }
+        else {
+            throw IllegalArgumentException("Invalid view holder");
+        }
     }
 
     override fun getItemCount(): Int {
         return entries.size;
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (entries[position] is ScheduleEntry.Meeting) {
+            return R.layout.schedule_meeting;
+        }
+        else if (entries[position] is ScheduleEntry.School) {
+            return R.layout.schedule_school;
+        }
+        else if (entries[position] is ScheduleEntry.Work) {
+            return R.layout.schedule_work;
+        }
+        else if (entries[position] is ScheduleEntry.Task) {
+            return R.layout.schedule_task;
+        }
+        else if (entries[position] is ScheduleEntry.Due) {
+            return R.layout.schedule_due;
+        }
+        else {
+            throw IllegalArgumentException("Invalid entry type");
+        }
     }
 }
