@@ -1,6 +1,5 @@
 package com.example.samassistant
 
-import java.text.DateFormat
 import java.util.*
 
 sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
@@ -80,7 +79,7 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
         return diffStr;
     }
 
-    fun formatStart(): String {
+    open fun formatStart(): String {
         val curr: Date = Date();
 
         var diff: Long = 0;
@@ -102,7 +101,23 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
         var location: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start);
+    ) : ScheduleEntry(id, name, start) {
+        fun formatEnd(): String {
+            val curr: Date = Date();
+
+            var diff: Long = 0;
+            if (curr.time < end.time) {
+                // Event is upcoming
+                diff = end.time - curr.time;
+                return "Ends in ${formatDiff(diff)}";
+            }
+            else {
+                // Event has passed
+                diff = curr.time - end.time;
+                return "Ended ${formatDiff(diff)} ago"
+            }
+        }
+    }
 
     class School(
         id: String,
@@ -111,25 +126,89 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
         var location: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start);
+    ) : ScheduleEntry(id, name, start) {
+        fun formatEnd(): String {
+            val curr: Date = Date();
+
+            var diff: Long = 0;
+            if (curr.time < end.time) {
+                // Event is upcoming
+                diff = end.time - curr.time;
+                return "Ends in ${formatDiff(diff)}";
+            }
+            else {
+                // Event has passed
+                diff = curr.time - end.time;
+                return "Ended ${formatDiff(diff)} ago"
+            }
+        }
+    }
 
     class Work(
         id: String,
         name: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start);
+    ) : ScheduleEntry(id, name, start) {
+        fun formatEnd(): String {
+            val curr: Date = Date();
+
+            var diff: Long = 0;
+            if (curr.time < end.time) {
+                // Event is upcoming
+                diff = end.time - curr.time;
+                return "Ends in ${formatDiff(diff)}";
+            }
+            else {
+                // Event has passed
+                diff = curr.time - end.time;
+                return "Ended ${formatDiff(diff)} ago"
+            }
+        }
+    }
 
     class Task(
         id: String,
         name: String,
         due: Date
-    ) : ScheduleEntry(id, name, due);
+    ) : ScheduleEntry(id, name, due) {
+        override fun formatStart(): String {
+            val curr: Date = Date();
+
+            var diff: Long = 0;
+            if (curr.time < start.time) {
+                // Event is upcoming
+                diff = start.time - curr.time;
+                return "Due in ${formatDiff(diff)}";
+            }
+            else {
+                // Event has passed
+                diff = curr.time - start.time;
+                return "Due ${formatDiff(diff)} ago"
+            }
+        }
+    }
 
     class Due(
         id: String,
         name: String,
         var course: String,
         due: Date
-    ) : ScheduleEntry(id, name, due);
+    ) : ScheduleEntry(id, name, due) {
+        override fun formatStart(): String {
+            val curr: Date = Date();
+
+            var diff: Long = 0;
+            if (curr.time < start.time) {
+                // Event is upcoming
+                diff = start.time - curr.time;
+                return "Due in ${formatDiff(diff)}";
+            }
+            else {
+                // Event has passed
+                diff = curr.time - start.time;
+                return "Due ${formatDiff(diff)} ago"
+            }
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package com.example.samassistant
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.example.samassistant.databinding.ActivityCreateEntryBinding
 
 class CreateEntryActivity : AppCompatActivity() {
@@ -14,7 +14,14 @@ class CreateEntryActivity : AppCompatActivity() {
         binding = ActivityCreateEntryBinding.inflate(layoutInflater);
         setContentView(binding.root);
 
-        binding.saveBtn.setOnClickListener {}
-        binding.cancelBtn.setOnClickListener {}
+        binding.saveBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java);
+            startActivity(intent);
+        }
+
+        binding.cancelBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java);
+            startActivity(intent);
+        }
     }
 }

@@ -26,6 +26,8 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
             fun bind(meeting: ScheduleEntry.Meeting) {
                 binding.name.text = meeting.name;
                 binding.location.text = meeting.location;
+                binding.start.text = meeting.formatStart();
+                binding.end.text = meeting.formatEnd();
 
                 binding.delete.setOnClickListener(object : View.OnClickListener {
                    override fun onClick(view: View) {
@@ -47,6 +49,9 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
                 binding.name.text = school.name;
                 binding.course.text = school.course;
                 binding.location.text = school.location;
+                binding.start.text = school.formatStart();
+                binding.end.text = school.formatEnd();
+
                 binding.school.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         Toast.makeText(view.context, school.name, Toast.LENGTH_SHORT).show()
@@ -59,6 +64,9 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
                 : ScheduleEntryViewHolder(binding) {
             fun bind(work: ScheduleEntry.Work) {
                 binding.name.text = work.name;
+                binding.start.text = work.formatStart();
+                binding.end.text = work.formatEnd();
+
                 binding.work.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         Toast.makeText(view.context, work.name, Toast.LENGTH_SHORT).show()
@@ -71,6 +79,8 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
                 : ScheduleEntryViewHolder(binding) {
             fun bind(task: ScheduleEntry.Task) {
                 binding.name.text = task.name;
+                binding.start.text = task.formatStart();
+
                 binding.task.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         Toast.makeText(view.context, task.name, Toast.LENGTH_SHORT).show()
@@ -83,7 +93,8 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
                 : ScheduleEntryViewHolder(binding) {
             fun bind(due: ScheduleEntry.Due) {
                 binding.name.text = due.name;
-                binding.start.text = due.start.toString();
+                binding.start.text = due.formatStart();
+
                 binding.due.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         Toast.makeText(view.context, due.name, Toast.LENGTH_SHORT).show()
