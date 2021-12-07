@@ -3,15 +3,14 @@ package com.example.samassistant
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.samassistant.databinding.*
 import java.lang.IllegalArgumentException
 
-class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>) : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
+class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
+        : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
 
     var entries = scheduleEntries
         set(value) {
@@ -22,39 +21,74 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>) : RecyclerVie
     sealed class ScheduleEntryViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        class MeetingViewHolder(private val binding: ScheduleMeetingBinding) : ScheduleEntryViewHolder(binding) {
+        class MeetingViewHolder(private val binding: ScheduleMeetingBinding)
+                : ScheduleEntryViewHolder(binding) {
             fun bind(meeting: ScheduleEntry.Meeting) {
                 binding.name.text = meeting.name;
                 binding.location.text = meeting.location;
-                binding.meeting.setOnClickListener {
-                    Toast.makeText(binding.meeting.context, "Meeting", Toast.LENGTH_SHORT).show()
-                }
+
+                binding.delete.setOnClickListener(object : View.OnClickListener {
+                   override fun onClick(view: View) {
+                       Toast.makeText(view.context, "Delete", Toast.LENGTH_SHORT).show()
+                   }
+                });
+
+                binding.meeting.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Toast.makeText(view.context, meeting.name, Toast.LENGTH_SHORT).show()
+                    }
+                });
             }
         }
 
-        class SchoolViewHolder(private val binding: ScheduleSchoolBinding) : ScheduleEntryViewHolder(binding) {
+        class SchoolViewHolder(private val binding: ScheduleSchoolBinding)
+                : ScheduleEntryViewHolder(binding) {
             fun bind(school: ScheduleEntry.School) {
                 binding.name.text = school.name;
                 binding.course.text = school.course;
                 binding.location.text = school.location;
+                binding.school.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Toast.makeText(view.context, school.name, Toast.LENGTH_SHORT).show()
+                    }
+                });
             }
         }
 
-        class WorkViewHolder(private val binding: ScheduleWorkBinding) : ScheduleEntryViewHolder(binding) {
+        class WorkViewHolder(private val binding: ScheduleWorkBinding)
+                : ScheduleEntryViewHolder(binding) {
             fun bind(work: ScheduleEntry.Work) {
                 binding.name.text = work.name;
+                binding.work.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Toast.makeText(view.context, work.name, Toast.LENGTH_SHORT).show()
+                    }
+                });
             }
         }
 
-        class TaskViewHolder(private val binding: ScheduleTaskBinding) : ScheduleEntryViewHolder(binding) {
+        class TaskViewHolder(private val binding: ScheduleTaskBinding)
+                : ScheduleEntryViewHolder(binding) {
             fun bind(task: ScheduleEntry.Task) {
                 binding.name.text = task.name;
+                binding.task.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Toast.makeText(view.context, task.name, Toast.LENGTH_SHORT).show()
+                    }
+                });
             }
         }
 
-        class DueViewHolder(private val binding: ScheduleDueBinding) : ScheduleEntryViewHolder(binding) {
+        class DueViewHolder(private val binding: ScheduleDueBinding)
+                : ScheduleEntryViewHolder(binding) {
             fun bind(due: ScheduleEntry.Due) {
                 binding.name.text = due.name;
+                binding.start.text = due.start.toString();
+                binding.due.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Toast.makeText(view.context, due.name, Toast.LENGTH_SHORT).show()
+                    }
+                });
             }
         }
     }

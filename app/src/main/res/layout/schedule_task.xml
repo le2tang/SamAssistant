@@ -6,7 +6,7 @@
     style="@style/ScheduleEntryBackgroundStyle" >
 
     <LinearLayout
-        android:id="@+id/school"
+        android:id="@+id/task"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,8 +17,8 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginVertical="20dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="20dp"
             android:layout_gravity="center_vertical"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
