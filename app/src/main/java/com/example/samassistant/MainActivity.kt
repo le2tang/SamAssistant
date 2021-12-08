@@ -3,6 +3,8 @@ package com.example.samassistant
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.samassistant.databinding.ActivityMainBinding
 import java.util.*
@@ -63,7 +65,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this, LinearLayoutManager.VERTICAL, false);
-        binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries);
+        binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries, View.OnClickListener {
+            view -> Toast.makeText(binding.root.context, "Click", Toast.LENGTH_SHORT).show()
+        });
 
         binding.createButton.setOnClickListener {
             val intent = Intent(this, CreateEntryActivity::class.java);

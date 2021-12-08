@@ -4,79 +4,31 @@ import java.util.*
 
 sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     fun formatDiff(diff: Long): String {
-        var diffStr: String = "";
-        var diffDaysStr: String = "";
-        var diffHrsStr: String = "";
-        var diffMinsStr: String = "";
-        var diffSecsStr: String = "";
-        var numFields: Int = 0;
-
         val diffDays: Long = diff / (1000 * 60 * 60 * 24);
         val diffHrs: Long = diff / (1000 * 60 * 60) - diffDays * 24;
         val diffMins: Long = diff / (1000 * 60) - diffDays * 60 * 24 - diffHrs * 60;
-        val diffSecs: Long = diff / 1000 - diffDays * 60 * 60 * 24 - diffHrs * 60 * 60 - diffMins * 60;
 
         if (diffDays > 1) {
-            diffDaysStr = "${diffDays} days";
-            ++numFields;
+            return "${diffDays} days";
         }
         else if (diffDays.equals(1)) {
-            diffDaysStr = "$diffDays} day";
-            ++numFields;
+            return "$diffDays} day";
         }
-
-        if (diffHrs > 1) {
-            diffHrsStr = "${diffHrs} hours";
-            ++numFields;
+        else if (diffHrs > 1) {
+            return "${diffHrs} hours";
         }
         else if (diffHrs.equals(1)) {
-            diffHrsStr = "${diffHrs} hour";
-            ++numFields;
+            return "${diffHrs} hour";
         }
-
-        if (diffMins > 1) {
-            diffMinsStr = "${diffMins} minutes";
-            ++numFields;
+        else if (diffMins > 1) {
+            return "${diffMins} minutes";
         }
         else if (diffMins.equals(1)) {
-            diffMinsStr = "${diffMins} minute";
-            ++numFields;
+            return "${diffMins} minute";
         }
-
-        if (diffSecs > 1) {
-            diffSecsStr = "${diffSecs} seconds";
-            ++numFields;
+        else {
+            return "0 minutes";
         }
-        else if (diffSecs.equals(1)) {
-            diffSecsStr = "${diffSecs} second";
-            ++numFields;
-        }
-
-        if (diffDaysStr.length > 0) {
-            diffStr += diffDaysStr;
-            if (numFields > 1) {
-                diffStr += ", ";
-            }
-            --numFields;
-        }
-        if (diffHrsStr.length > 0) {
-            diffStr += diffHrsStr;
-            if (numFields > 1) {
-                diffStr += ", ";
-            }
-            --numFields;
-        }
-        if (diffMinsStr.length > 0) {
-            diffStr += diffMinsStr;
-            if (numFields > 1) {
-                diffStr += ", ";
-            }
-            --numFields;
-        }
-        if (diffSecsStr.length > 0) {
-            diffStr += diffSecsStr;
-        }
-        return diffStr;
     }
 
     open fun formatStart(): String {
