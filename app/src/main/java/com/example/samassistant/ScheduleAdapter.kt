@@ -11,7 +11,7 @@ import java.lang.IllegalArgumentException
 
 class ScheduleAdapter(
     scheduleEntries: MutableList<ScheduleEntry>,
-    private val onClickEntry: View.OnClickListener)
+    private val onClickEntry: (ScheduleEntry) -> Unit)
         : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
 
     var entries = scheduleEntries
@@ -25,7 +25,7 @@ class ScheduleAdapter(
 
         class MeetingViewHolder(private val binding: ScheduleMeetingBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(meeting: ScheduleEntry.Meeting, onClickEntry: View.OnClickListener) {
+            fun bind(meeting: ScheduleEntry.Meeting, onClickEntry: (ScheduleEntry) -> Unit) {
                 binding.name.text = meeting.name;
                 binding.location.text = meeting.location;
                 binding.start.text = meeting.formatStart();
@@ -37,51 +37,51 @@ class ScheduleAdapter(
                    }
                 });
 
-                binding.meeting.setOnClickListener(onClickEntry);
+                binding.meeting.setOnClickListener { onClickEntry };
             }
         }
 
         class SchoolViewHolder(private val binding: ScheduleSchoolBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(school: ScheduleEntry.School, onClickEntry: View.OnClickListener) {
+            fun bind(school: ScheduleEntry.School, onClickEntry: (ScheduleEntry) -> Unit) {
                 binding.name.text = school.name;
                 binding.course.text = school.course;
                 binding.location.text = school.location;
                 binding.start.text = school.formatStart();
                 binding.end.text = school.formatEnd();
 
-                binding.school.setOnClickListener(onClickEntry);
+                binding.school.setOnClickListener { onClickEntry };
             }
         }
 
         class WorkViewHolder(private val binding: ScheduleWorkBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(work: ScheduleEntry.Work, onClickEntry: View.OnClickListener) {
+            fun bind(work: ScheduleEntry.Work, onClickEntry: (ScheduleEntry) -> Unit) {
                 binding.name.text = work.name;
                 binding.start.text = work.formatStart();
                 binding.end.text = work.formatEnd();
 
-                binding.work.setOnClickListener(onClickEntry);
+                binding.work.setOnClickListener { onClickEntry };
             }
         }
 
         class TaskViewHolder(private val binding: ScheduleTaskBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(task: ScheduleEntry.Task, onClickEntry: View.OnClickListener) {
+            fun bind(task: ScheduleEntry.Task, onClickEntry: (ScheduleEntry) -> Unit) {
                 binding.name.text = task.name;
                 binding.start.text = task.formatStart();
 
-                binding.task.setOnClickListener(onClickEntry);
+                binding.task.setOnClickListener { onClickEntry };
             }
         }
 
         class DueViewHolder(private val binding: ScheduleDueBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(due: ScheduleEntry.Due, onClickEntry: View.OnClickListener) {
+            fun bind(due: ScheduleEntry.Due, onClickEntry: (ScheduleEntry) -> Unit) {
                 binding.name.text = due.name;
                 binding.start.text = due.formatStart();
 
-                binding.due.setOnClickListener(onClickEntry);
+                binding.due.setOnClickListener { onClickEntry };
             }
         }
     }

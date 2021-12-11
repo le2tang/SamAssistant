@@ -2,6 +2,8 @@ package com.example.samassistant
 
 import java.util.*
 
+const val SCHEDULE_ENTRY_ID = "schedule_entry";
+
 sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     fun formatDiff(diff: Long): String {
         val diffDays: Long = diff / (1000 * 60 * 60 * 24);

@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
                 "meeting0",
                 "Meeting",
                 "Location",
-                Date(2021-1900, 11, 19, 9, 30, 0),
-                Date(2021-1900, 11, 19, 10, 0, 0)
+                Date(2021 - 1900, 11, 19, 9, 30, 0),
+                Date(2021 - 1900, 11, 19, 10, 0, 0)
             )
         );
         scheduleEntries.add(
@@ -35,23 +35,23 @@ class MainActivity : AppCompatActivity() {
                 "School",
                 "Course",
                 "Location",
-                Date(2021-1900, 11, 19, 9, 30, 0),
-                Date(2021-1900, 11, 19, 10, 0, 0)
+                Date(2021 - 1900, 11, 19, 9, 30, 0),
+                Date(2021 - 1900, 11, 19, 10, 0, 0)
             )
         );
         scheduleEntries.add(
             ScheduleEntry.Work(
                 "work0",
                 "Work",
-                Date(2021-1900, 11, 19, 9, 30, 0),
-                Date(2021-1900, 11, 19, 10, 0, 0)
+                Date(2021 - 1900, 11, 19, 9, 30, 0),
+                Date(2021 - 1900, 11, 19, 10, 0, 0)
             )
         );
         scheduleEntries.add(
             ScheduleEntry.Task(
                 "task0",
                 "Task",
-                Date(2021-1900, 11, 19, 9, 30, 0)
+                Date(2021 - 1900, 11, 19, 9, 30, 0)
             )
         );
         scheduleEntries.add(
@@ -59,19 +59,25 @@ class MainActivity : AppCompatActivity() {
                 "due0",
                 "Due",
                 "Course",
-                Date(2021-1900, 11, 19, 9, 30, 0)
+                Date(2021 - 1900, 11, 7, 20, 50, 0)
             )
         );
 
         binding.recyclerView.layoutManager = LinearLayoutManager(
-            this, LinearLayoutManager.VERTICAL, false);
-        binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries, View.OnClickListener {
-            view -> Toast.makeText(binding.root.context, "Click", Toast.LENGTH_SHORT).show()
-        });
+            this, LinearLayoutManager.VERTICAL, false
+        );
+        binding.recyclerView.adapter = ScheduleAdapter(
+            scheduleEntries, { entry -> adapterOnClick(entry) });
 
         binding.createButton.setOnClickListener {
             val intent = Intent(this, CreateEntryActivity::class.java);
             startActivity(intent);
         }
+    }
+
+    fun adapterOnClick(entry: ScheduleEntry) {
+        val intent = Intent(this, CreateEntryActivity::class.java);
+        intent.putExtra(SCHEDULE_ENTRY_ID, entry.id);
+        startActivity(intent);
     }
 }
