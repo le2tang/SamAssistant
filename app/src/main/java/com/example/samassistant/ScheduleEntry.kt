@@ -4,7 +4,9 @@ import java.util.*
 
 const val SCHEDULE_ENTRY_ID = "schedule_entry";
 
-sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
+sealed class ScheduleEntry(var name: String, var start: Date) {
+    var uuid: UUID = UUID.randomUUID();
+
     fun formatDiff(diff: Long): String {
         val diffDays: Long = diff / (1000 * 60 * 60 * 24);
         val diffHrs: Long = diff / (1000 * 60 * 60) - diffDays * 24;
@@ -50,12 +52,11 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     }
 
     class Meeting(
-        id: String,
         name: String,
         var location: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start) {
+    ) : ScheduleEntry(name, start) {
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -74,13 +75,12 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     }
 
     class School(
-        id: String,
         name: String,
         var course: String,
         var location: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start) {
+    ) : ScheduleEntry(name, start) {
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -99,11 +99,10 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     }
 
     class Work(
-        id: String,
         name: String,
         start: Date,
         var end: Date
-    ) : ScheduleEntry(id, name, start) {
+    ) : ScheduleEntry(name, start) {
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -122,10 +121,9 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     }
 
     class Task(
-        id: String,
         name: String,
         due: Date
-    ) : ScheduleEntry(id, name, due) {
+    ) : ScheduleEntry(name, due) {
         override fun formatStart(): String {
             val curr: Date = Date();
 
@@ -144,11 +142,10 @@ sealed class ScheduleEntry(var id: String, var name: String, var start: Date) {
     }
 
     class Due(
-        id: String,
         name: String,
         var course: String,
         due: Date
-    ) : ScheduleEntry(id, name, due) {
+    ) : ScheduleEntry(name, due) {
         override fun formatStart(): String {
             val curr: Date = Date();
 

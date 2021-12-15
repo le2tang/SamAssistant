@@ -1,17 +1,17 @@
 package com.example.samassistant
 
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.samassistant.databinding.*
 import java.lang.IllegalArgumentException
 
-class ScheduleAdapter(
-    scheduleEntries: MutableList<ScheduleEntry>,
-    private val onClickEntry: (ScheduleEntry) -> Unit)
+class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
         : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
 
     var entries = scheduleEntries
@@ -21,11 +21,19 @@ class ScheduleAdapter(
         };
 
     sealed class ScheduleEntryViewHolder(binding: ViewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+
+        override fun onClick(view: View) {
+            val position = adapterPosition;
+
+            var intent = Intent(view.context, EditEntryActivity::class.java);
+            intent.putExtra("EDIT_ENTRY_POSITION", position);
+            view.context.startActivity(intent);
+        }
 
         class MeetingViewHolder(private val binding: ScheduleMeetingBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(meeting: ScheduleEntry.Meeting, onClickEntry: (ScheduleEntry) -> Unit) {
+            fun bind(meeting: ScheduleEntry.Meeting) {
                 binding.name.text = meeting.name;
                 binding.location.text = meeting.location;
                 binding.start.text = meeting.formatStart();
@@ -37,51 +45,51 @@ class ScheduleAdapter(
                    }
                 });
 
-                binding.meeting.setOnClickListener { onClickEntry };
+                binding.meeting.setOnClickListener(this);
             }
         }
 
         class SchoolViewHolder(private val binding: ScheduleSchoolBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(school: ScheduleEntry.School, onClickEntry: (ScheduleEntry) -> Unit) {
+            fun bind(school: ScheduleEntry.School) {
                 binding.name.text = school.name;
                 binding.course.text = school.course;
                 binding.location.text = school.location;
                 binding.start.text = school.formatStart();
                 binding.end.text = school.formatEnd();
 
-                binding.school.setOnClickListener { onClickEntry };
+                binding.school.setOnClickListener(this);
             }
         }
 
         class WorkViewHolder(private val binding: ScheduleWorkBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(work: ScheduleEntry.Work, onClickEntry: (ScheduleEntry) -> Unit) {
+            fun bind(work: ScheduleEntry.Work) {
                 binding.name.text = work.name;
                 binding.start.text = work.formatStart();
                 binding.end.text = work.formatEnd();
 
-                binding.work.setOnClickListener { onClickEntry };
+                binding.work.setOnClickListener(this);
             }
         }
 
         class TaskViewHolder(private val binding: ScheduleTaskBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(task: ScheduleEntry.Task, onClickEntry: (ScheduleEntry) -> Unit) {
+            fun bind(task: ScheduleEntry.Task) {
                 binding.name.text = task.name;
                 binding.start.text = task.formatStart();
 
-                binding.task.setOnClickListener { onClickEntry };
+                binding.task.setOnClickListener(this);
             }
         }
 
         class DueViewHolder(private val binding: ScheduleDueBinding)
                 : ScheduleEntryViewHolder(binding) {
-            fun bind(due: ScheduleEntry.Due, onClickEntry: (ScheduleEntry) -> Unit) {
+            fun bind(due: ScheduleEntry.Due) {
                 binding.name.text = due.name;
                 binding.start.text = due.formatStart();
 
-                binding.due.setOnClickListener { onClickEntry };
+                binding.due.setOnClickListener(this);
             }
         }
     }
@@ -129,19 +137,19 @@ class ScheduleAdapter(
 
     override fun onBindViewHolder(viewHolder: ScheduleEntryViewHolder, position: Int) {
         if (viewHolder is ScheduleEntryViewHolder.MeetingViewHolder) {
-            return viewHolder.bind(entries[position] as ScheduleEntry.Meeting, onClickEntry);
+            return viewHolder.bind(entries[position] as ScheduleEntry.Meeting);
         }
         else if (viewHolder is ScheduleEntryViewHolder.SchoolViewHolder) {
-            return viewHolder.bind(entries[position] as ScheduleEntry.School, onClickEntry)
+            return viewHolder.bind(entries[position] as ScheduleEntry.School)
         }
         else if (viewHolder is ScheduleEntryViewHolder.WorkViewHolder) {
-            return viewHolder.bind(entries[position] as ScheduleEntry.Work, onClickEntry);
+            return viewHolder.bind(entries[position] as ScheduleEntry.Work);
         }
         else if (viewHolder is ScheduleEntryViewHolder.TaskViewHolder) {
-            return viewHolder.bind(entries[position] as ScheduleEntry.Task, onClickEntry);
+            return viewHolder.bind(entries[position] as ScheduleEntry.Task);
         }
         else if (viewHolder is ScheduleEntryViewHolder.DueViewHolder) {
-            return viewHolder.bind(entries[position] as ScheduleEntry.Due, onClickEntry);
+            return viewHolder.bind(entries[position] as ScheduleEntry.Due);
         }
         else {
             throw IllegalArgumentException("Invalid view holder");

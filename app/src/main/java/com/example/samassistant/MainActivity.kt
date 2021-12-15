@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.samassistant.databinding.ActivityMainBinding
 import java.util.*
 
@@ -13,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding;
 
     private var scheduleEntries: MutableList<ScheduleEntry> = mutableListOf<ScheduleEntry>();
+    private val model: ScheduleViewModel by viewModels();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -22,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         scheduleEntries.add(
             ScheduleEntry.Meeting(
-                "meeting0",
                 "Meeting",
                 "Location",
                 Date(2021 - 1900, 11, 19, 9, 30, 0),
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         );
         scheduleEntries.add(
             ScheduleEntry.School(
-                "school0",
                 "School",
                 "Course",
                 "Location",
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         );
         scheduleEntries.add(
             ScheduleEntry.Work(
-                "work0",
                 "Work",
                 Date(2021 - 1900, 11, 19, 9, 30, 0),
                 Date(2021 - 1900, 11, 19, 10, 0, 0)
@@ -49,14 +49,12 @@ class MainActivity : AppCompatActivity() {
         );
         scheduleEntries.add(
             ScheduleEntry.Task(
-                "task0",
                 "Task",
                 Date(2021 - 1900, 11, 19, 9, 30, 0)
             )
         );
         scheduleEntries.add(
             ScheduleEntry.Due(
-                "due0",
                 "Due",
                 "Course",
                 Date(2021 - 1900, 11, 7, 20, 50, 0)
@@ -66,18 +64,11 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this, LinearLayoutManager.VERTICAL, false
         );
-        binding.recyclerView.adapter = ScheduleAdapter(
-            scheduleEntries, { entry -> adapterOnClick(entry) });
+        binding.recyclerView.adapter = ScheduleAdapter(scheduleEntries);
 
         binding.createButton.setOnClickListener {
             val intent = Intent(this, CreateEntryActivity::class.java);
             startActivity(intent);
         }
-    }
-
-    fun adapterOnClick(entry: ScheduleEntry) {
-        val intent = Intent(this, CreateEntryActivity::class.java);
-        intent.putExtra(SCHEDULE_ENTRY_ID, entry.id);
-        startActivity(intent);
     }
 }
