@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.view.get
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -24,8 +25,6 @@ class CreateEntryActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListe
     var date: Int = 0;
     var hour: Int = 0;
     var min: Int = 0;
-
-    private lateinit var model: ScheduleViewModel;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);

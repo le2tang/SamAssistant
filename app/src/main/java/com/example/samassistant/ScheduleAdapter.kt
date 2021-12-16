@@ -11,14 +11,9 @@ import androidx.viewbinding.ViewBinding
 import com.example.samassistant.databinding.*
 import java.lang.IllegalArgumentException
 
-class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
+class ScheduleAdapter(scheduleEntries: List<ScheduleEntry>?)
         : RecyclerView.Adapter<ScheduleAdapter.ScheduleEntryViewHolder>() {
-
-    var entries = scheduleEntries
-        set(value) {
-            field = value;
-            notifyDataSetChanged();
-        };
+    private val entries = scheduleEntries ?: emptyList<ScheduleEntry>();
 
     sealed class ScheduleEntryViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -27,7 +22,7 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
             val position = adapterPosition;
 
             var intent = Intent(view.context, EditEntryActivity::class.java);
-            intent.putExtra("EDIT_ENTRY_POSITION", position);
+            intent.putExtra(EDIT_ENTRY_POSITION, position.toString());
             view.context.startActivity(intent);
         }
 
@@ -39,11 +34,13 @@ class ScheduleAdapter(scheduleEntries: MutableList<ScheduleEntry>)
                 binding.start.text = meeting.formatStart();
                 binding.end.text = meeting.formatEnd();
 
-                binding.delete.setOnClickListener(object : View.OnClickListener {
-                   override fun onClick(view: View) {
-                       Toast.makeText(view.context, "Delete", Toast.LENGTH_SHORT).show()
-                   }
-                });
+                binding.delete.setOnClickListener { view ->
+                    Toast.makeText(
+                        view.context,
+                        "Delete",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                };
 
                 binding.meeting.setOnClickListener(this);
             }
