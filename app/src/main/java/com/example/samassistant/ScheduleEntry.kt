@@ -4,8 +4,16 @@ import java.util.*
 
 const val SCHEDULE_ENTRY_ID = "schedule_entry";
 
+const val SCHEDULE_ENTRY_TYPE_ENTRY = 0;
+const val SCHEDULE_ENTRY_TYPE_MEETING = 1;
+const val SCHEDULE_ENTRY_TYPE_SCHOOL = 2;
+const val SCHEDULE_ENTRY_TYPE_WORK = 3;
+const val SCHEDULE_ENTRY_TYPE_TASK = 4;
+const val SCHEDULE_ENTRY_TYPE_DUE = 5;
+
 sealed class ScheduleEntry(var name: String, var start: Date) {
     var uuid: UUID = UUID.randomUUID();
+    open val type = SCHEDULE_ENTRY_TYPE_ENTRY;
 
     fun formatDiff(diff: Long): String {
         val diffDays: Long = diff / (1000 * 60 * 60 * 24);
@@ -57,6 +65,8 @@ sealed class ScheduleEntry(var name: String, var start: Date) {
         start: Date,
         var end: Date
     ) : ScheduleEntry(name, start) {
+        override val type = SCHEDULE_ENTRY_TYPE_MEETING;
+
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -81,6 +91,8 @@ sealed class ScheduleEntry(var name: String, var start: Date) {
         start: Date,
         var end: Date
     ) : ScheduleEntry(name, start) {
+        override val type = SCHEDULE_ENTRY_TYPE_SCHOOL;
+
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -103,6 +115,8 @@ sealed class ScheduleEntry(var name: String, var start: Date) {
         start: Date,
         var end: Date
     ) : ScheduleEntry(name, start) {
+        override val type = SCHEDULE_ENTRY_TYPE_WORK;
+
         fun formatEnd(): String {
             val curr: Date = Date();
 
@@ -124,6 +138,8 @@ sealed class ScheduleEntry(var name: String, var start: Date) {
         name: String,
         due: Date
     ) : ScheduleEntry(name, due) {
+        override val type = SCHEDULE_ENTRY_TYPE_TASK;
+
         override fun formatStart(): String {
             val curr: Date = Date();
 
@@ -146,6 +162,8 @@ sealed class ScheduleEntry(var name: String, var start: Date) {
         var course: String,
         due: Date
     ) : ScheduleEntry(name, due) {
+        override val type = SCHEDULE_ENTRY_TYPE_DUE;
+
         override fun formatStart(): String {
             val curr: Date = Date();
 

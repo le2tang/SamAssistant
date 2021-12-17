@@ -19,10 +19,8 @@ class ScheduleAdapter(scheduleEntries: List<ScheduleEntry>?)
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         override fun onClick(view: View) {
-            val position = adapterPosition;
-
             var intent = Intent(view.context, EditEntryActivity::class.java);
-            intent.putExtra(EDIT_ENTRY_POSITION, position.toString());
+            intent.putExtra(EDIT_ENTRY_POSITION, adapterPosition);
             view.context.startActivity(intent);
         }
 

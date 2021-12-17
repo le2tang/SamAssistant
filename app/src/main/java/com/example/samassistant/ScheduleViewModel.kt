@@ -50,4 +50,8 @@ class ScheduleViewModel() : ViewModel() {
     fun getEntries(): LiveData<List<ScheduleEntry>> {
         return entries;
     }
+
+    fun getEntry(position: Int): ScheduleEntry? {
+        return entries.value?.get(position);
+    }
 }

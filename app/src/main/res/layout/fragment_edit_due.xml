@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".EditMeetingFragment">
+    tools:context=".EditDueFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -43,22 +43,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/course"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Location" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start" />
-
-            <TextView
-                android:id="@+id/end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="End" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

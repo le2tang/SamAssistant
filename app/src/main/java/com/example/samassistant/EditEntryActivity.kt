@@ -3,16 +3,12 @@ package com.example.samassistant
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.lifecycle.Observer
 import com.example.samassistant.databinding.ActivityEditEntryBinding
-import com.example.samassistant.databinding.FragmentCreateScheduleMeetingBinding
-import com.example.samassistant.databinding.FragmentCreateScheduleSchoolBinding
-import java.lang.Integer.parseInt
+import java.lang.IllegalStateException
 
 const val EDIT_ENTRY_POSITION = "EDIT_ENTRY_POSITION";
 
@@ -43,14 +39,49 @@ class EditEntryActivity : AppCompatActivity() {
             startActivity(intent);
         };
 
-        model.selected.observe(this, Observer<Int> {
-            position -> binding.editEntryName.text = position.toString();
-        })
-
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true);
-                add<EditMeetingFragment>(binding.editEntryFragmentFrame.id);
+            val position = intent.getIntExtra(EDIT_ENTRY_POSITION, 0);
+            val entry = model.getEntry(position);
+
+            Log.println(Log.DEBUG, "Position", position.toString())
+
+            if (entry?.type == SCHEDULE_ENTRY_TYPE_MEETING) {
+                val fragment = EditMeetingFragment.newInstance(position);
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true);
+                    add(binding.editEntryFragmentFrame.id, fragment);
+                }
+            }
+            else if (entry?.type == SCHEDULE_ENTRY_TYPE_SCHOOL) {
+                val fragment = EditSchoolFragment.newInstance(position);
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true);
+                    add(binding.editEntryFragmentFrame.id, fragment);
+                }
+            }
+            else if (entry?.type == SCHEDULE_ENTRY_TYPE_WORK) {
+                val fragment = EditWorkFragment.newInstance(position);
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true);
+                    add(binding.editEntryFragmentFrame.id, fragment);
+                }
+            }
+            else if (entry?.type == SCHEDULE_ENTRY_TYPE_TASK) {
+                val fragment = EditTaskFragment.newInstance(position);
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true);
+                    add(binding.editEntryFragmentFrame.id, fragment);
+                }
+            }
+            else if (entry?.type == SCHEDULE_ENTRY_TYPE_DUE) {
+                val fragment = EditDueFragment.newInstance(position);
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true);
+                    add(binding.editEntryFragmentFrame.id, fragment);
+                }
+            }
+            else {
+                throw IllegalStateException("Invalid entry type");
             }
         }
     }
